@@ -55,9 +55,12 @@ recaptcha.middleware.verify.function (req, res)
 }    
 
 app.post ('/guardar', 
-recaptcha.middleware.verify.async.function (req, res) if (!req.recaptcha.error) {
+recaptcha.middleware.verify.async.function (req, res) {
+    if(!req.recaptcha.error){
     //success code
-    const ip =
+
+
+        const ip =
     req.header('x-forwarded-for') ||
     req.socket.remoteAddress
         const nombre = req.body.name 
@@ -101,11 +104,16 @@ recaptcha.middleware.verify.async.function (req, res) if (!req.recaptcha.error) 
                 console.log(error);
             }else{
                 res.redirect('/contacto')
-            }   
-}
+            }
+        });
+
+        
      //error code
     }else{
-     res.redirect('/contacto')})
+     res.redirect('/contacto')}
+})
+
+
 
 app.get('/contactos', function (req, res) {
     if(!req.session.login) { 
