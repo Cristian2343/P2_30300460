@@ -7,6 +7,8 @@ const nodemailer = require('nodemailer')
 const { RecaptchaV3 } = require('express-recaptcha')
 const SECRET_KEY = '6LdEnO0fAAAAAI9ipLbp3Ew2CBXEPRBLaS_QzvRI'
 const SITE_KEY = '6LdEnO0fAAAAACySJZCy4Q-vMk_IL6XS1lUSqOT-'
+const recaptcha = new 
+RecaptchaV3 (SITE_KEY, SECRET_KEY)
 require('dotenv').config()
 
 const cookieParser = require('cookie-parser')
@@ -35,11 +37,42 @@ app.get('/', function (req, res) {
     res.render("curriculum")
 })
 
-app.get('/contacto', function (req, res) {
+app.get('/contacto', recaptcha.middleware.render, function (req, res) {
+    consol.log(res.recaptcha)
+    res.render('contacto', { captcha: res.captcha})
+})
 
+app.get('/contacto', recaptcha.middleware.render, function (req, res) {
     res.render('contacto', { SITE_KEY, SECRET_KEY })
 })
 
+app.post ('/contacto'),
+recaptcha.middleware.verify.function (req, res) 
+    if (!req.recaptcha.error) { //success code}
+} else { 
+    //error code
+
+}    
+
+app.post ('/guardar', 
+recaptcha.middleware.verify.async.function (req, res) 
+    if (!req.recaptcha.error)
+    //success code
+)
+
+        const ip =
+    req.header('x-forwarded-for') ||
+    req.socket.remoteAddress
+        const nombre = req.body.name 
+        const email = req.body.email
+        const comentario = req.body.comentario
+        const geoip = await
+        axios.get('http://ip-api.com/json/$(ip)')
+        const country= 
+        geoip.data.countryCode
+
+        db.rum ('INSERT INTO contactos VAlLUES')(${nombre}','${email}','${comentario}','${ip}','${datetime}('now'),('localtime'), '${country}')
+       
         const to = "programacion2ais@dispostable.com";
         const message = `
             Nombre: ${nombre}
